@@ -17,11 +17,8 @@ const server = createServer(app);
 
 // to use the socket.io with the express server
 // we have given the second parameter as an object with cors property so that we can request from any origin
-const io = require("socket.io")(server,{
-  cors: {
-    origin: '*',
-  }
-});
+const { Server } = require("socket.io");
+const io = new Server(server);
 
 // starting the database connection
 connectDb();
@@ -311,6 +308,3 @@ app.post("/signedIn", (req, res) => {
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-
-module.exports = server;
