@@ -1,11 +1,9 @@
 {
-  "functions": [
+  "version": 2,
+  "builds": [
     {
-      "name": "socket-io",
-      "src": "server.js",
-      "env": {
-        "PORT": 3000
-      }
+      "src": "index.js",
+      "use": "@now/node"
     }
   ]
 }
