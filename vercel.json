@@ -1,15 +1,11 @@
 {
-  "version": 2,
-  "builds": [
+  "functions": [
     {
-      "src": "index.js",
-      "use": "@now/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "index.js"
+      "name": "socket-io",
+      "src": "server.js",
+      "env": {
+        "PORT": 3000
+      }
     }
   ]
 }
