@@ -18,7 +18,12 @@ const server = createServer(app);
 // to use the socket.io with the express server
 // we have given the second parameter as an object with cors property so that we can request from any origin
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(
+  server,
+  cors({
+    origin: "*",
+  })
+);
 
 // starting the database connection
 connectDb();
@@ -26,14 +31,11 @@ connectDb();
 // enabling the cors
 app.use(cors());
 
-
-
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.send("Hello from the server");
 });
 
-
-app.get('/api', (req, res) => {
+app.get("/api", (req, res) => {
   res.send("Hello from the server");
 });
 
@@ -93,10 +95,8 @@ io.on("connection", (socket) => {
     // }
 
     if (!connectedUsers?.user?.email.includes(email)) {
-            connectedUsers.push({ user: data.singedInUser, socketId: data.socketId });
-
+      connectedUsers.push({ user: data.singedInUser, socketId: data.socketId });
     }
-
 
     // console.log("my data is : " + displayName, email, photoURL);
     if (data.singedInUser.displayName) {
@@ -112,7 +112,7 @@ io.on("connection", (socket) => {
     const { email, message } = data;
     console.log("we got a message");
 
-    console.log(connectedUsers)
+    console.log(connectedUsers);
 
     // to send the message to the user specified in the email
     // we cannot break the map thats why we are using for loop
@@ -125,7 +125,6 @@ io.on("connection", (socket) => {
         break;
       }
     }
-
 
     console.log(data);
   });
@@ -209,8 +208,8 @@ io.on("connection", (socket) => {
       User.findOne({ email: from }).then((result) => {
         if (result.request.find((object) => object.from === to)) {
           const delReq = {
-           from:to,
-           to:from
+            from: to,
+            to: from,
           };
 
           User.updateOne(
@@ -284,7 +283,6 @@ io.on("connection", (socket) => {
       });
     };
     findDublicateRequest();
-
   });
 
   // removing the user from the connected users array
