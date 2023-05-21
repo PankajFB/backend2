@@ -25,11 +25,24 @@ const io = new Server(
   })
 );
 
+const whitelist = ['http://localhost:3000', 'http://localhost:4000']
+
+const corsOptions  = {
+  origin : (origin,callback) =>{
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null,true);
+  } else {
+      callback(null,true);
+  }
+  credentials: true
+}
+}
+
 // starting the database connection
 connectDb();
 
 // enabling the cors
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
   res.send("Hello from the server");
